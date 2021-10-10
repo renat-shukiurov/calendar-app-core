@@ -8,7 +8,7 @@ async function start() {
     const PORT = process.env.PORT || 5000;
     const app = await NestFactory.create(AppModule);
 
-    let whitelist = ['http://localhost:3000'];
+    let whitelist = ['http://localhost:3000', 'https://renat-shukiurov.com'];
     app.enableCors({
         origin: function (origin, callback) {
             if (whitelist.indexOf(origin) !== -1) {
@@ -16,8 +16,8 @@ async function start() {
                 callback(null, true)
             } else {
                 console.log("blocked cors for:", origin)
-                // callback(new Error('Not allowed by CORS'))
-                callback(null, true)
+                callback(new Error('Not allowed by CORS'))
+                // callback(null, true)
 
             }
         },
