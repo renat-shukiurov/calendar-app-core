@@ -6,14 +6,14 @@ services:
     build:
       context: .
     env_file:
-      - .production.env
+      - .${NODE_ENV}.env
     volumes:
       - .:/app
       - /app/node_modules
     ports:
-      - 7000:7000
+      - ${LOCAL_CORE_PORT}:${LOCAL_CORE_PORT}
       - 9229:9229
-    command: npm run start
+    command: npm run ${COMMAND_START}
     depends_on:
       - postgres
     restart: always
@@ -21,11 +21,11 @@ services:
     container_name: postgres
     image: postgres:12
     env_file:
-      - .production.env
+      - .${NODE_ENV}.env
     environment:
       PG_DATA: /var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - ${LOCAL_POSTGRES_PORT}:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: always
